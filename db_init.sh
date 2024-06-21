@@ -14,6 +14,12 @@ echo_log "DB initilization start"
 export STATUS=1
 i=0
 
+# TODO: Replace the sleep for a more elegant way to detect that sql server is ready
+# https://www.softwaredeveloper.blog/initialize-mssql-in-docker-container
+# Without this the next while sometimes ends but the database is not ready
+# which creates strange behaviors
+sleep 90s
+
 while [[ $STATUS -ne 0 ]] && [[ $i -lt 60 ]]; do
     echo_log "Waiting sql server availability: #iteration: $i"
 	i=$i+1

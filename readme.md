@@ -1,22 +1,27 @@
-# MS SQL Server - Enhanced
+# SQL Server - Enhanced
 
-A minimal enhancement of the official [mcr.microsoft.com/mssql/server](https://hub.docker.com/_/microsoft-mssql-server) image provided by https://github.com/microsoft/mssql-docker which has some missed features.
+A minimal enhancement of the official https://hub.docker.com/_/microsoft-mssql-server
 
 <img src="https://github.com/usil/mssql-docker-enhanced/assets/3322836/81497954-f10b-4847-9702-8b101ecbd707" width=300>
 
-## Github Repository
+## Source code and issues
 
-- https://github.com/usil/mssql-docker-enhanced
+- https://github.com/jrichardsz/sql-server-enhanced
+
+## Dockerhub
+
+- https://hub.docker.com/repository/docker/jrichardsz/sql-server-enhanced/
+
 
 ## Notes
 
-- If you are concerned about the things happening in the background, go to this repository https://github.com/usil/mssql-docker-enhanced , check the **Dockerfile** and build your own image
+- If you are concerned about the things happening in the background, go to this repository https://github.com/jrichardsz/sql-server-enhanced , check the **Dockerfile** and build your own image
 
 ## Tags
 
 |tag| operative system| sql server version | Edition|
 |:--|:--|:--|:--|
-|ubuntu-20.04.6_2022-RTM-CU3_dev-edition|Linux (Ubuntu 20.04.6 LTS)|Microsoft SQL Server 2022 (RTM-CU3) (KB5024396) - 16.0.4025.1 (X64)| Developer Edition (64-bit) <X64>|
+|ubuntu-22.04|Microsoft SQL Server 2022 (RTM-CU3) (KB5024396) - 16.0.4025.1 (X64)| Developer Edition (64-bit) <X64>|
 
 ## Environment Variables
 
@@ -33,14 +38,28 @@ More details here: https://hub.docker.com/_/microsoft-mssql-server
 ## Download
 
 ```
-docker push usildevops/mssql-docker-enhanced:latest
+docker pull jrichardsz/sql-server-enhanced:ubuntu-22.04-sql.2022.rtm-cu3
 ```
 
 ## Local build
 
 ```
-docker build -t mssql-docker-enhanced .
+docker build -t sql-server-enhanced:ubuntu-22.04-sql.2022.rtm-cu3 .
 ```
+
+## Tag
+
+```
+docker tag sql-server-enhanced:ubuntu-22.04-sql.2022.rtm-cu3 jrichardsz/sql-server-enhanced:ubuntu-22.04-sql.2022.rtm-cu3
+```
+
+
+## Push
+
+```
+docker push jrichardsz/sql-server-enhanced:ubuntu-22.04-sql.2022.rtm-cu3
+```
+
 
 ## docker-compose
 
@@ -49,7 +68,7 @@ version: '3.7'
 
 services:
  mssql-docker-enhanced:
-    image: usildevops/mssql-docker-enhanced
+    image: jrichardsz/sql-server-enhanced
     container_name: mssql-docker-enhanced
     shm_size: 1g
     ports:
