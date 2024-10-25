@@ -1,0 +1,24 @@
+services:
+ mssql-docker-enhanced:
+    #image: jrichardsz/sql-server-enhanced
+    build:
+      context: .
+    container_name: mssql-docker-enhanced
+    shm_size: 1g
+    ports:
+     - "1433:1433"
+    environment:
+      ACCEPT_EULA: 1
+      MSSQL_PID: Developer
+      MSSQL_USER: sa
+      MSSQL_SA_PASSWORD: 70quasWNl*o#nu4U
+      # IGNORE_ALREADY_EXECUTED_SCRIPTS: true
+      TZ: America/Lima
+    volumes:
+      - ./sample-scripts:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: cat /var/log/docker/sqlserver_db_init.log | grep [db_init_completed]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s 
