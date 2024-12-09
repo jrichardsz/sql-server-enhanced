@@ -1,9 +1,9 @@
 services:
- mssql-docker-enhanced:
-    #image: jrichardsz/sql-server-enhanced
+ sql-server-enhanced:
+    image: jrichardsz/sql-server-enhanced:ubuntu-22.04-sql.2022.rtm-cu15-1.0.3
     build:
       context: .
-    container_name: mssql-docker-enhanced
+    container_name: sql-server-enhanced
     shm_size: 1g
     ports:
      - "1433:1433"
@@ -12,8 +12,8 @@ services:
       MSSQL_PID: Developer
       MSSQL_USER: sa
       MSSQL_SA_PASSWORD: 70quasWNl*o#nu4U
-      # IGNORE_ALREADY_EXECUTED_SCRIPTS: true
       TZ: America/Lima
+      SKIP_ERRORS: true
     volumes:
       - ./sample-scripts:/docker-entrypoint-initdb.d
     healthcheck:
