@@ -64,17 +64,17 @@ if [ -e "$SEED_ORDER_FILE_LOCATION" ]; then
   echo_log "_seed.order.txt was detected. Custom order will be used instead the alphabetical sort"
   sql_files=$(cat "$SEED_ORDER_FILE_LOCATION")
 else
-  cd $DB_INIT_FOLDER
   if [ "$INCLUDE_SUB_FOLDERS" = "true" ]; then
-    sql_files=$(find * -mindepth 1  -name '*.sql' )
+    sql_files=$(find $DB_INIT_FOLDER -mindepth 1  -name '*.sql' )
     PREVENT_REPEAT_EXECUTIONS_ON_RESTART=false
     echo_log "When INCLUDE_SUB_FOLDERS is true, is not possible to save the executed scripts names. So PREVENT_REPEAT_EXECUTIONS_ON_RESTART will be false"
   else
-    sql_files=$(find * -mindepth 1 -maxdepth 1  -name '*.sql' )
+    sql_files=$(find $DB_INIT_FOLDER -mindepth 1 -maxdepth 1  -name '*.sql' )
   fi
 fi
 
 cd $_DIRNAME
+echo_log "Workspace: $(pwd)"
 
 if [ -z "${sql_files}" ]; then
   echo_log "sql files are not found on $DB_INIT_FOLDER"
@@ -86,15 +86,22 @@ else
   # TODO: Move the execution to a function
 
   echo_log "Executing the following sql scripts from folder: $DB_INIT_FOLDER"
-  echo_log "$sql_files"
+  echo -e "\n$sql_files\n\n"
 
-  while read script_relative_location; do 
+  while read script_location; do 
 
-      if [ -z "${script_relative_location}" ]; then
+      if [ -z "${script_location}" ]; then
         continue
       fi
 
-      script_absolute_location=$DB_INIT_FOLDER/$script_relative_location
+      script_absolute_location=
+      if [ -e "$SEED_ORDER_FILE_LOCATION" ]; then
+        script_absolute_location="$DB_INIT_FOLDER/$script_location"
+      else
+        script_absolute_location="$script_location"
+      fi
+
+      script_absolute_location=$(echo "$script_absolute_location"  | xargs echo -n )
 
       if [ "$PREVENT_REPEAT_EXECUTIONS_ON_RESTART" == "false" ]; then
           echo_log ""
